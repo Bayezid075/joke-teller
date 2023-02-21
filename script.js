@@ -1,6 +1,9 @@
 const button = document.getElementById("button");
 const audioElement = document.getElementById("audio");
-
+const jokeApiUrl =
+  "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single";
+let jokes = "";
+console.log(jokes);
 var VoiceRSS = {
   speech: function (e) {
     this._validate(e), this._request(e);
@@ -107,6 +110,17 @@ var VoiceRSS = {
     throw "The browser does not support HTTP request";
   },
 };
+
+async function getJokes() {
+  try {
+    const responese = await fetch(jokeApiUrl);
+    const data = await responese.json();
+    jokes = data.joke;
+  } catch (error) {
+    console.log("jokes api error : ", error);
+  }
+}
+getJokes();
 
 function testfunc() {
   VoiceRSS.speech({
