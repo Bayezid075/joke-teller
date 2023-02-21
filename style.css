@@ -33,3 +33,6 @@ body {
   color: white;
   cursor: pointer;
 }
+.audio {
+  cursor: pointer;
+}
