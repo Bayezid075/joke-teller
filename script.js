@@ -3,7 +3,11 @@ const audioElement = document.getElementById("audio");
 const jokeApiUrl =
   "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single";
 let jokes = "";
-console.log(jokes);
+
+function toggleButton() {
+  button.disabled = !button.disabled;
+}
+
 var VoiceRSS = {
   speech: function (e) {
     this._validate(e), this._request(e);
@@ -129,9 +133,16 @@ async function getJokes() {
     const responese = await fetch(jokeApiUrl);
     const data = await responese.json();
     jokes = data.joke;
+    // Text to speech
     tellJokes(jokes);
+    // disable button
+    toggleButton();
   } catch (error) {
     console.log("jokes api error : ", error);
   }
 }
 getJokes();
+
+// get joke by button
+button.addEventListener("click", getJokes);
+audioElement.addEventListener("ended", toggleButton);
