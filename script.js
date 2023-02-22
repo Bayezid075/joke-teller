@@ -110,22 +110,11 @@ var VoiceRSS = {
     throw "The browser does not support HTTP request";
   },
 };
-
-async function getJokes() {
-  try {
-    const responese = await fetch(jokeApiUrl);
-    const data = await responese.json();
-    jokes = data.joke;
-  } catch (error) {
-    console.log("jokes api error : ", error);
-  }
-}
-getJokes();
-
-function testfunc() {
+// give the joke text to spech api
+function tellJokes(joke) {
   VoiceRSS.speech({
     key: "be99bcd09d4346baaecc545a54b75ebd",
-    src: "Hello, world!",
+    src: joke,
     hl: "en-us",
     v: "Linda",
     r: 0,
@@ -134,4 +123,15 @@ function testfunc() {
     ssml: false,
   });
 }
-testfunc();
+
+async function getJokes() {
+  try {
+    const responese = await fetch(jokeApiUrl);
+    const data = await responese.json();
+    jokes = data.joke;
+    tellJokes(jokes);
+  } catch (error) {
+    console.log("jokes api error : ", error);
+  }
+}
+getJokes();
